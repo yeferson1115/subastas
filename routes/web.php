@@ -18,12 +18,21 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AdminCreditApplicationController;
 use App\Http\Controllers\AdminCreditPaymentController;
 use App\Http\Controllers\PublicCreditPortalController;
+use App\Http\Controllers\PublicAuctionController;
+use App\Http\Controllers\PublicRegistrationController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/', [PublicCreditPortalController::class, 'home'])->name('home');
+Route::get('/subastas', [PublicAuctionController::class, 'index'])->name('public.auctions.index');
+Route::get('/subastas/{auctionProduct:slug}', [PublicAuctionController::class, 'show'])->name('public.auctions.show');
+Route::post('/subastas/{auctionProduct:slug}/ofertar', [PublicAuctionController::class, 'bid'])->middleware('auth')->name('public.auctions.bid');
+Route::get('/registro/ofertante', [PublicRegistrationController::class, 'bidder'])->middleware('guest')->name('register.bidder');
+Route::post('/registro/ofertante', [PublicRegistrationController::class, 'storeBidder'])->middleware('guest')->name('register.bidder.store');
+Route::get('/registro/subastador', [PublicRegistrationController::class, 'auctioneer'])->middleware('guest')->name('register.auctioneer');
+Route::post('/registro/subastador', [PublicRegistrationController::class, 'storeAuctioneer'])->middleware('guest')->name('register.auctioneer.store');
 
 Route::get('/consultar-pagar-credito', [PublicCreditPortalController::class, 'index'])->name('credit-portal.index');
 Route::post('/consultar-pagar-credito/pagar', [PublicCreditPortalController::class, 'startPayment'])->name('credit-portal.pay');

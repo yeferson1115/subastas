@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuctionProduct;
+use App\Models\Category;
 use App\Models\CreditApplication;
 use App\Models\CreditPayment;
 use Illuminate\Http\JsonResponse;
@@ -16,7 +18,10 @@ class PublicCreditPortalController extends Controller
 {
     public function home(): View
     {
-        return view('welcome-public');
+        $categories = Category::with('subcategories')->orderBy('name')->get();
+        $featuredAuctions = AuctionProduct::with(['category', 'subcategory', 'highestBid'])->latest('created_at')->take(6)->get();
+
+        return view('welcome-public', compact('categories', 'featuredAuctions'));
     }
 
     public function index(Request $request): View

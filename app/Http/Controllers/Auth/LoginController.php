@@ -35,7 +35,11 @@ class LoginController extends Controller
             }
 
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard'); // o la ruta que quieras
+            if ($user->user_type === \App\Models\User::TYPE_BIDDER || $user->hasRole(\App\Models\User::TYPE_BIDDER)) {
+                return redirect()->intended(route('public.auctions.index'));
+            }
+
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
