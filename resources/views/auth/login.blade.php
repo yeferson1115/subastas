@@ -21,7 +21,7 @@
                     <div class="mb-4 text-center">
                         <img src="{{ asset('imagenes/logo.jpg') }}" alt="Logo B&B Store" style="height: 72px;" class="rounded-3">
                     </div>
-                    <h4 class="mb-1">Bienvenido a B&B Store! 👋</h4>
+                    <h4 class="mb-1">Bienvenido a BidFixX! 👋</h4>
                     
                     @if (session('status'))
                         <div class="alert alert-success mb-3">
