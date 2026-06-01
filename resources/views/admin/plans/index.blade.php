@@ -25,43 +25,38 @@
 
         <div class="row">
             @foreach ($userTypeLabels as $userType => $label)
+                @php($plan = $plans->get($userType))
                 <div class="col-lg-6 col-12 mb-4">
                     <div class="card h-100">
                         <div class="card-header">
-                            <h4 class="card-title mb-0">{{ $label }}</h4>
-                            <small class="text-muted">Configure el valor para vigencias de 1 mes, 6 meses y 1 año.</small>
+                            <h4 class="card-title mb-0">Plan para {{ strtolower($label) }}</h4>
+                            <small class="text-muted">Solo existe un plan para este tipo de usuario. Configure su valor y vigencia.</small>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Vigencia</th>
-                                            <th>Valor</th>
-                                            <th>Activo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($plans->get($userType, collect()) as $plan)
-                                            <tr>
-                                                <td>
-                                                    {{ $plan->durationLabel() }}
-                                                    <input type="hidden" name="plans[{{ $plan->id }}][id]" value="{{ $plan->id }}">
-                                                </td>
-                                                <td>
-                                                    <input type="number" step="0.01" min="0" class="form-control @error('plans.' . $plan->id . '.price') is-invalid @enderror" name="plans[{{ $plan->id }}][price]" value="{{ old('plans.' . $plan->id . '.price', $plan->price) }}" required>
-                                                    @error('plans.' . $plan->id . '.price') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                                                </td>
-                                                <td>
-                                                    <div class="form-check form-switch">
-                                                        <input type="hidden" name="plans[{{ $plan->id }}][is_active]" value="0">
-                                                        <input class="form-check-input" type="checkbox" name="plans[{{ $plan->id }}][is_active]" value="1" @checked(old('plans.' . $plan->id . '.is_active', $plan->is_active))>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                            <input type="hidden" name="plans[{{ $plan->id }}][id]" value="{{ $plan->id }}">
+
+                            <div class="mb-3">
+                                <label class="form-label" for="duration_months_{{ $plan->id }}">Vigencia</label>
+                                <select class="form-select @error('plans.' . $plan->id . '.duration_months') is-invalid @enderror" id="duration_months_{{ $plan->id }}" name="plans[{{ $plan->id }}][duration_months]" required>
+                                    @foreach ($durations as $months => $labelDuration)
+                                        <option value="{{ $months }}" @selected((int) old('plans.' . $plan->id . '.duration_months', $plan->duration_months) === (int) $months)>
+                                            {{ $labelDuration }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('plans.' . $plan->id . '.duration_months') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="price_{{ $plan->id }}">Valor del plan</label>
+                                <input type="number" step="0.01" min="0" class="form-control @error('plans.' . $plan->id . '.price') is-invalid @enderror" id="price_{{ $plan->id }}" name="plans[{{ $plan->id }}][price]" value="{{ old('plans.' . $plan->id . '.price', $plan->price) }}" required>
+                                @error('plans.' . $plan->id . '.price') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="form-check form-switch">
+                                <input type="hidden" name="plans[{{ $plan->id }}][is_active]" value="0">
+                                <input class="form-check-input" type="checkbox" id="is_active_{{ $plan->id }}" name="plans[{{ $plan->id }}][is_active]" value="1" @checked(old('plans.' . $plan->id . '.is_active', $plan->is_active))>
+                                <label class="form-check-label" for="is_active_{{ $plan->id }}">Plan activo</label>
                             </div>
                         </div>
                     </div>

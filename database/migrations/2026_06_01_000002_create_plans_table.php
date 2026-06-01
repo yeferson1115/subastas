@@ -17,21 +17,19 @@ return new class extends Migration
             $table->decimal('price', 12, 2)->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            $table->unique(['user_type', 'duration_months']);
+            $table->unique('user_type');
         });
 
         $now = now();
         foreach ([User::TYPE_AUCTIONEER, User::TYPE_BIDDER] as $userType) {
-            foreach ([1, 6, 12] as $duration) {
-                DB::table('plans')->insert([
-                    'user_type' => $userType,
-                    'duration_months' => $duration,
-                    'price' => 0,
-                    'is_active' => true,
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ]);
-            }
+            DB::table('plans')->insert([
+                'user_type' => $userType,
+                'duration_months' => 1,
+                'price' => 0,
+                'is_active' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
         }
     }
 

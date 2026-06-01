@@ -57,6 +57,15 @@ class Plan extends Model
         };
     }
 
+    public static function durationOptions(): array
+    {
+        return [
+            self::DURATION_ONE_MONTH => '1 mes',
+            self::DURATION_SIX_MONTHS => '6 meses',
+            self::DURATION_ONE_YEAR => '1 año',
+        ];
+    }
+
     public static function userTypeLabels(): array
     {
         return [
