@@ -35,7 +35,51 @@
         .btn-outline-brand { color: var(--brand-blue); border: 1px solid rgba(0, 48, 95, .25); background: rgba(255,255,255,.85); font-weight: 700; }
         .btn-outline-brand:hover { color: #fff; background: var(--brand-blue); border-color: var(--brand-blue); }
         .btn-soft-brand { color: var(--brand-blue); border: 1px solid rgba(6, 200, 215, .35); background: rgba(6, 200, 215, .1); font-weight: 800; }
-        .hero-shell { padding: 2rem .75rem 0; }
+        .auction-disabled-card{
+            background: linear-gradient(
+                135deg,
+                rgba(0,48,95,.04),
+                rgba(6,200,215,.08)
+            );
+            border: 1px solid rgba(6,200,215,.18);
+            border-radius: 24px;
+            padding: 1.75rem;
+            text-align: center;
+        }
+
+        .auction-disabled-icon{
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:2rem;
+            color: var(--brand-blue);
+            background: rgba(6,200,215,.12);
+        }
+
+        .auction-countdown{
+            background:#fff;
+            border-radius:18px;
+            padding:1rem;
+            box-shadow:0 10px 25px rgba(0,48,95,.08);
+        }
+
+        .countdown-label{
+            font-size:.85rem;
+            text-transform:uppercase;
+            letter-spacing:.08rem;
+            color:var(--brand-muted);
+            margin-bottom:.4rem;
+        }
+
+        .countdown-value{
+            font-size:1.5rem;
+            font-weight:900;
+            color:var(--brand-blue);
+        }
         .hero-slide { min-height: 540px; padding: clamp(2rem, 5vw, 5rem); display: flex; align-items: center; color: #fff; background-size: cover; background-position: center; }
         .hero-slide-primary { background: radial-gradient(circle at 82% 20%, rgba(6,200,215,.55), transparent 28%), linear-gradient(135deg, rgba(0,48,95,.98), rgba(0,95,174,.88)); }
         .hero-slide-secondary { background: radial-gradient(circle at 20% 18%, rgba(255,255,255,.22), transparent 27%), linear-gradient(135deg, rgba(7,25,47,.97), rgba(6,200,215,.76)); }
@@ -58,6 +102,8 @@
         .form-card-header { background: linear-gradient(135deg, var(--brand-blue), var(--brand-cyan)); color: #fff; }
         .footer { background: var(--brand-slate); color: #e5f5fb; }
         .social-link { width: 38px; height: 38px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; background: linear-gradient(130deg, var(--brand-blue-2), var(--brand-cyan)); }
+        .document-card { transition: all .25s ease;border: 1px solid rgba(0,48,95,.08);}
+        .document-card:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0,95,174,.15) !important;border-color: rgba(6,200,215,.35);}
         @media (min-width: 992px) { .dropdown:hover > .dropdown-menu { display: block; margin-top: 0; } }
         @media (max-width: 991.98px) { .hero-slide { min-height: auto; } .navbar-collapse { padding-top: 1rem; } .header-actions { align-items: stretch !important; } }
     </style>
@@ -130,4 +176,38 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const el = document.getElementById('auctionCountdown');
+
+    if (!el) return;
+
+    const endDate = new Date(el.dataset.end);
+
+    function updateCountdown() {
+
+        const now = new Date();
+        const diff = endDate - now;
+
+        if (diff <= 0) {
+            el.innerHTML = 'Finalizada';
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        el.innerHTML =
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown();
+
+    setInterval(updateCountdown, 1000);
+});
+</script>
 </html>

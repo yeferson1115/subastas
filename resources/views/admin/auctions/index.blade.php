@@ -25,7 +25,7 @@
             @foreach($statusLabels as $key => $label)
                 <a href="{{ route('admin.auctions.index', ['status' => $key]) }}" class="btn btn-{{ $status === $key ? 'primary' : 'outline-primary' }}">
                     {{ $label }}
-                    <span class="badge bg-{{ $status === $key ? 'light text-primary' : 'primary' }} ms-1">{{ $counts[$key] ?? 0 }}</span>
+                    <span class="badge bg-{{ $status === $key ? 'light text-primary' : 'primary' }} ms-1" style="color:#fff">{{ $counts[$key] ?? 0 }}</span>
                 </a>
             @endforeach
         </div>

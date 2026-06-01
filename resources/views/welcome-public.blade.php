@@ -11,7 +11,7 @@
                 <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="1" aria-label="Vende como subastador"></button>
                 <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="2" aria-label="Ofertas seguras"></button>
             </div>
-            <div class="carousel-inner rounded-5 overflow-hidden">
+            <div class="carousel-inner  overflow-hidden">
                 <div class="carousel-item active">
                     <div class="hero-slide hero-slide-primary">
                         <div class="row align-items-center g-4">

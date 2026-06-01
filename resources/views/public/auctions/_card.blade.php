@@ -10,8 +10,7 @@
             <span class="badge rounded-pill badge-status">{{ $auction->auction_status }}</span>
             <span class="small text-muted">{{ $auction->category?->name }}</span>
         </div>
-        <h3 class="h5 fw-bold mb-2">{{ $auction->name }}</h3>
-        <p class="text-muted small mb-3">{{ Str::limit($auction->detail ?? 'Subasta disponible con condiciones y ficha técnica para revisar.', 96) }}</p>
+        <h3 class="h5 fw-bold mb-2">{{ $auction->name }}</h3>       
         <div class="d-flex justify-content-between align-items-end gap-3">
             <div>
                 <small class="text-muted d-block">Oferta actual</small>
