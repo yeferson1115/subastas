@@ -21,6 +21,19 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $user = Auth::user();
+            $planMessage = $user->planStatusMessage();
+
+            if ($planMessage !== null) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()
+                    ->withErrors(['email' => $planMessage])
+                    ->onlyInput('email');
+            }
+
             $request->session()->regenerate();
             return redirect()->intended('/dashboard'); // o la ruta que quieras
         }

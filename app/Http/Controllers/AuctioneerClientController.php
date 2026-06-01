@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
@@ -12,7 +14,7 @@ class AuctioneerClientController extends Controller
 {
     public function index()
     {
-        $clients = User::with('roles')
+        $clients = User::with(['roles', 'plan'])
             ->where('user_type', User::TYPE_AUCTIONEER)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -27,7 +29,9 @@ class AuctioneerClientController extends Controller
             'user_type' => User::TYPE_AUCTIONEER,
         ]);
 
-        return view('admin.auctioneer-clients.create', compact('client'));
+        $plans = $this->auctioneerPlans();
+
+        return view('admin.auctioneer-clients.create', compact('client', 'plans'));
     }
 
     public function store(Request $request)
@@ -51,7 +55,9 @@ class AuctioneerClientController extends Controller
 
         $client = $auctioneerClient;
 
-        return view('admin.auctioneer-clients.edit', compact('client'));
+        $plans = $this->auctioneerPlans();
+
+        return view('admin.auctioneer-clients.edit', compact('client', 'plans'));
     }
 
     public function update(Request $request, User $auctioneerClient)
@@ -118,6 +124,11 @@ class AuctioneerClientController extends Controller
             ],
             'company_phone' => ['nullable', 'string', 'max:50'],
             'company_address' => ['nullable', 'string', 'max:255'],
+            'plan_id' => [
+                'nullable',
+                Rule::exists('plans', 'id')->where(fn ($query) => $query->where('user_type', User::TYPE_AUCTIONEER)->where('is_active', true)),
+            ],
+            'plan_started_at' => ['nullable', 'date', 'required_with:plan_id'],
         ]);
     }
 
@@ -139,11 +150,39 @@ class AuctioneerClientController extends Controller
             'company_legal_representative' => $validated['auctioneer_client_type'] === User::AUCTIONEER_COMPANY ? $validated['company_legal_representative'] : null,
             'company_phone' => $validated['auctioneer_client_type'] === User::AUCTIONEER_COMPANY ? ($validated['company_phone'] ?? null) : null,
             'company_address' => $validated['auctioneer_client_type'] === User::AUCTIONEER_COMPANY ? ($validated['company_address'] ?? null) : null,
+            'plan_id' => $validated['plan_id'] ?? null,
+            'plan_started_at' => ! empty($validated['plan_id']) ? $validated['plan_started_at'] : null,
+            'plan_expires_at' => $this->calculatePlanExpiration($validated['plan_id'] ?? null, $validated['plan_started_at'] ?? null),
         ]);
 
         if ($password) {
             $client->password = Hash::make($password);
         }
+    }
+
+
+    private function auctioneerPlans()
+    {
+        return Plan::query()
+            ->where('user_type', User::TYPE_AUCTIONEER)
+            ->where('is_active', true)
+            ->orderBy('duration_months')
+            ->get();
+    }
+
+    private function calculatePlanExpiration(?int $planId, ?string $startDate): ?Carbon
+    {
+        if (! $planId || ! $startDate) {
+            return null;
+        }
+
+        $plan = Plan::find($planId);
+
+        if (! $plan) {
+            return null;
+        }
+
+        return Carbon::parse($startDate)->addMonthsNoOverflow($plan->duration_months);
     }
 
     private function auctioneerRole(): Role

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctioneerClientController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -46,6 +47,8 @@ Route::middleware('auth')->group(function () {
   // Resources
     
     Route::resource('users', UserController::class);
+    Route::get('admin/plans', [PlanController::class, 'index'])->name('admin.plans.index');
+    Route::put('admin/plans', [PlanController::class, 'update'])->name('admin.plans.update');
     Route::get('admin/auctioneer-clients', [AuctioneerClientController::class, 'index'])->name('admin.auctioneer-clients.index');
     Route::get('admin/auctioneer-clients/create', [AuctioneerClientController::class, 'create'])->name('admin.auctioneer-clients.create');
     Route::post('admin/auctioneer-clients', [AuctioneerClientController::class, 'store'])->name('admin.auctioneer-clients.store');

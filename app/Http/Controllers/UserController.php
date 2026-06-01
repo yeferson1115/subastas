@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Plan;
 use App\Models\User;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
 use App\Models\Log\LogSistema;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\UploadedFile;
@@ -28,7 +30,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = User::with('roles')->with('permissions')
+        $users = User::with(['roles', 'permissions', 'plan'])
                        ->orderBy('created_at', 'desc')
                        ->get();
 
@@ -43,7 +45,7 @@ class UserController extends Controller
     public function create()
     {
 
-        return view('admin.usuarios.create');
+        return view('admin.usuarios.create', ['plans' => $this->activePlans()]);
     }
 
 
@@ -58,6 +60,8 @@ public function store(Request $request)
         'phone'  => 'nullable|string|max:50',
         'contact' => 'nullable|string|max:255',
         'signature' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+        'plan_id' => 'nullable|exists:plans,id',
+        'plan_started_at' => 'nullable|date|required_with:plan_id',
     ]);
 
     // Crear el usuario
@@ -86,6 +90,8 @@ public function store(Request $request)
         $user->save();
     }
 
+    $this->syncPlan($user, $request->input('plan_id'), $request->input('plan_started_at'));
+
     return response()->json([
         'success' => true,
         'user_id' => $user->id
@@ -99,7 +105,7 @@ public function store(Request $request)
     public function show($id)
     {
         $user = User::find($id);
-        return view('admin.usuarios.edit', ['user' => $user]);
+        return view('admin.usuarios.edit', ['user' => $user, 'plans' => $this->activePlans()]);
     }
 
 
@@ -110,7 +116,7 @@ public function store(Request $request)
         $user = User::with('roles')->with('permissions')->find($id);
         
 
-        return view('admin.usuarios.edit', ['user' => $user]);
+        return view('admin.usuarios.edit', ['user' => $user, 'plans' => $this->activePlans()]);
     }
 
 
@@ -124,7 +130,9 @@ public function store(Request $request)
             'password' => 'nullable|string|min:8|confirmed',            
             'phone'  => 'nullable|string|max:50',
             'contact' => 'nullable|string|max:255',
-            'signature' => 'nullable|file|mimes:jpg,jpeg,png|max:2048'
+            'signature' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'plan_id' => 'nullable|exists:plans,id',
+            'plan_started_at' => 'nullable|date|required_with:plan_id'
             
         ]);
 
@@ -156,7 +164,55 @@ public function store(Request $request)
             }
         }
 
+        $this->syncPlan($user, $request->input('plan_id'), $request->input('plan_started_at'));
+
         return json_encode(['success' => true]);
+    }
+
+
+    private function activePlans()
+    {
+        return Plan::query()
+            ->whereIn('user_type', [User::TYPE_AUCTIONEER, User::TYPE_BIDDER])
+            ->where('is_active', true)
+            ->orderBy('user_type')
+            ->orderBy('duration_months')
+            ->get();
+    }
+
+    private function syncPlan(User $user, ?string $planId, ?string $startDate): void
+    {
+        if (! $user->requiresActivePlan() || ! $planId || ! $startDate) {
+            $user->forceFill([
+                'plan_id' => null,
+                'plan_started_at' => null,
+                'plan_expires_at' => null,
+            ])->save();
+            return;
+        }
+
+        $plan = Plan::query()
+            ->where('id', $planId)
+            ->where('user_type', $user->user_type)
+            ->where('is_active', true)
+            ->first();
+
+        if (! $plan) {
+            $user->forceFill([
+                'plan_id' => null,
+                'plan_started_at' => null,
+                'plan_expires_at' => null,
+            ])->save();
+            return;
+        }
+
+        $start = Carbon::parse($startDate);
+
+        $user->forceFill([
+            'plan_id' => $plan->id,
+            'plan_started_at' => $start,
+            'plan_expires_at' => $start->copy()->addMonthsNoOverflow($plan->duration_months),
+        ])->save();
     }
 
     private function storeSignatureInPublic(UploadedFile $file, int $userId): string
