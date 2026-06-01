@@ -9,14 +9,14 @@
                       <div data-i18n="Inicio">Inicio</div>
                     </a>
                   </li>
-                  
+
                   @can('Administracion')
                   <li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
                       <i class="menu-icon fa-solid fa-sliders"></i>
                       <div data-i18n="Administración">Administración</div>
                     </a>
-                   
+
                     <ul class="menu-sub">
                        @can('Ver Usuarios')
                       <li class="menu-item">
@@ -34,9 +34,18 @@
                         </a>
                       </li>
                       @endcan
-                      
-                     
-                      
+
+                      @can('Ver Categorias')
+                      <li class="menu-item">
+                        <a href="{{ route('categories.index') }}" class="menu-link">
+                          <i class="menu-icon fa-solid fa-layer-group"></i>
+                          <div data-i18n="Categorías">Categorías</div>
+                        </a>
+                      </li>
+                      @endcan
+
+
+
                       @can('Editar Permisos')
                       <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -52,17 +61,17 @@
                             </a>
                           </li>
                           @endforeach
-                        
+
                         </ul>
                       </li>
                       @endcan
-                      
+
 
 
                     </ul>
                   </li>
                   @endcan
-                 
+
                   @can('Gestionar Configuracion')
                   <!-- Layouts -->
                   <li class="menu-item">
@@ -79,8 +88,8 @@
                           <div data-i18n="Planes">Planes</div>
                         </a>
                       </li>
-                      @endcan                    
-                      
+                      @endcan
+
                     </ul>
                   </li>
                   @endcan
