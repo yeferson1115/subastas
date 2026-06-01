@@ -25,6 +25,8 @@
                           <div data-i18n="Usuarios">Usuarios</div>
                         </a>
                       </li>
+                      @endcan
+                      @can('Ver Subastadores')
                       <li class="menu-item">
                         <a href="{{ route('admin.auctioneer-clients.index') }}" class="menu-link">
                           <i class="menu-icon fa-solid fa-gavel"></i>
@@ -32,6 +34,7 @@
                         </a>
                       </li>
                       @endcan
+                      
                      
                       
                       @can('Editar Permisos')
@@ -69,30 +72,15 @@
                     </a>
 
                     <ul class="menu-sub">
-                      <li class="menu-item">
-                        <a href="/companies" class="menu-link">
-                          <i class="menu-icon fa-solid fa-building"></i>
-                          <div data-i18n="Empresas">Empresas</div>
-                        </a>
-                      </li>
+                      @can('Ver planes')
                       <li class="menu-item">
                         <a href="{{ route('admin.plans.index') }}" class="menu-link">
                           <i class="menu-icon fa-solid fa-tags"></i>
                           <div data-i18n="Planes">Planes</div>
                         </a>
                       </li>
-                      <li class="menu-item">
-                        <a href="{{ route('admin.credit-applications.index') }}" class="menu-link">
-                          <i class="menu-icon fa-solid fa-file-signature"></i>
-                          <div data-i18n="Solicitudes Crédito">Solicitudes Crédito</div>
-                        </a>
-                      </li>
-                      <li class="menu-item">
-                        <a href="{{ route('admin.credit-payments.index') }}" class="menu-link">
-                          <i class="menu-icon fa-solid fa-money-check-dollar"></i>
-                          <div data-i18n="Pagos Crédito">Pagos Crédito</div>
-                        </a>
-                      </li>
+                      @endcan                    
+                      
                     </ul>
                   </li>
                   @endcan
