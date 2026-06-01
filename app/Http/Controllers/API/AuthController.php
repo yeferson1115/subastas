@@ -48,6 +48,14 @@ class AuthController extends Controller
             $user = User::where('email', $credentials['email'])->first();
         }
 
+        $planMessage = $user->planStatusMessage();
+
+        if ($planMessage !== null) {
+            auth('api')->logout();
+
+            return response()->json(['error' => $planMessage], 403);
+        }
+
         $permissions = $user->getAllPermissions();
 
         return response()->json([

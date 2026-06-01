@@ -90,6 +90,42 @@
         </div>
     </div>
 
+    <div class="col-12">
+        <hr>
+        <h5 class="mb-3">Plan del subastador</h5>
+    </div>
+
+    <div class="col-md-6 col-12">
+        <div class="mb-3">
+            <label class="form-label" for="plan_id">Plan asignado</label>
+            <select class="form-select @error('plan_id') is-invalid @enderror" id="plan_id" name="plan_id">
+                <option value="">Sin plan activo</option>
+                @foreach ($plans as $plan)
+                    <option value="{{ $plan->id }}" data-months="{{ $plan->duration_months }}" @selected((string) old('plan_id', $client->plan_id) === (string) $plan->id)>
+                        {{ $plan->name }} - ${{ number_format((float) $plan->price, 2, ',', '.') }}
+                    </option>
+                @endforeach
+            </select>
+            @error('plan_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+        <div class="mb-3">
+            <label class="form-label" for="plan_started_at">Fecha de inicio</label>
+            <input type="date" class="form-control @error('plan_started_at') is-invalid @enderror" id="plan_started_at" name="plan_started_at" value="{{ old('plan_started_at', optional($client->plan_started_at)->format('Y-m-d')) }}">
+            @error('plan_started_at') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        </div>
+    </div>
+
+    <div class="col-md-3 col-12">
+        <div class="mb-3">
+            <label class="form-label" for="plan_expires_at_preview">Fecha de vencimiento</label>
+            <input type="text" class="form-control" id="plan_expires_at_preview" value="{{ optional($client->plan_expires_at)->format('d/m/Y') }}" readonly>
+            <small class="text-muted">Se calcula automáticamente según la vigencia.</small>
+        </div>
+    </div>
+
     <div class="col-12 company-section">
         <hr>
         <h5 class="mb-3">Datos de la empresa</h5>
@@ -172,9 +208,28 @@
         $('#last_name').prop('required', !isCompany);
     }
 
+    function updatePlanExpirationPreview() {
+        const selected = $('#plan_id option:selected');
+        const months = parseInt(selected.data('months'), 10);
+        const start = $('#plan_started_at').val();
+
+        $('#plan_started_at').prop('required', Boolean($('#plan_id').val()));
+
+        if (!months || !start) {
+            $('#plan_expires_at_preview').val('');
+            return;
+        }
+
+        const date = new Date(start + 'T00:00:00');
+        date.setMonth(date.getMonth() + months);
+        $('#plan_expires_at_preview').val(date.toLocaleDateString('es-CO'));
+    }
+
     $(document).ready(function () {
         toggleAuctioneerFields();
         $('#auctioneer_client_type').on('change', toggleAuctioneerFields);
+        updatePlanExpirationPreview();
+        $('#plan_id, #plan_started_at').on('change', updatePlanExpirationPreview);
     });
 </script>
 @endpush
