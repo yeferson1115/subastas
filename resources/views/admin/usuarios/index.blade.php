@@ -76,7 +76,9 @@
 
 
                                         <td>
-                                            @if($user->hasRole('admin')) <b>Administrador</b> @endif
+                                            @if($user->hasRole('admin') || $user->user_type === 'admin') <b>Administrador</b> @endif
+                                            @if($user->hasRole('subastador') || $user->user_type === 'subastador') <b>Subastador</b> @endif
+                                            @if($user->hasRole('ofertante') || $user->user_type === 'ofertante') <b>Ofertante</b> @endif
                                             @if($user->hasRole('agente')) <b>Agente</b> @endif   
                                             @if($user->hasRole('Comercial')) <b>Comercial</b> @endif                                            
                                            

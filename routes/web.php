@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuctioneerClientController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
@@ -45,6 +46,12 @@ Route::middleware('auth')->group(function () {
   // Resources
     
     Route::resource('users', UserController::class);
+    Route::get('admin/auctioneer-clients', [AuctioneerClientController::class, 'index'])->name('admin.auctioneer-clients.index');
+    Route::get('admin/auctioneer-clients/create', [AuctioneerClientController::class, 'create'])->name('admin.auctioneer-clients.create');
+    Route::post('admin/auctioneer-clients', [AuctioneerClientController::class, 'store'])->name('admin.auctioneer-clients.store');
+    Route::get('admin/auctioneer-clients/{auctioneerClient}/edit', [AuctioneerClientController::class, 'edit'])->name('admin.auctioneer-clients.edit');
+    Route::put('admin/auctioneer-clients/{auctioneerClient}', [AuctioneerClientController::class, 'update'])->name('admin.auctioneer-clients.update');
+    Route::delete('admin/auctioneer-clients/{auctioneerClient}', [AuctioneerClientController::class, 'destroy'])->name('admin.auctioneer-clients.destroy');
     Route::resource('permission', PermissionController::class);
     Route::get('/roles/{roleId}/permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
     Route::put('/roles/{roleId}/permissions', [PermissionController::class, 'update'])->name('permissions.update');

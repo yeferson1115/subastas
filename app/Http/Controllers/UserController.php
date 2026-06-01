@@ -82,6 +82,8 @@ public function store(Request $request)
     // Asignar rol si se seleccionó
     if ($request->has('role')) {
         $user->assignRole($request->role);
+        $user->user_type = $this->userTypeFromRole($request->role);
+        $user->save();
     }
 
     return response()->json([
@@ -149,6 +151,8 @@ public function store(Request $request)
             $role = Role::find($request->role);
             if ($role) {
                 $user->syncRoles([$role->name]);
+                $user->user_type = $this->userTypeFromRole($role->name);
+                $user->save();
             }
         }
 
@@ -183,8 +187,18 @@ public function store(Request $request)
         }
     }
 
+    private function userTypeFromRole(string|int $role): string
+    {
+        if (is_numeric($role)) {
+            $role = Role::find($role)?->name ?? '';
+        }
 
-
+        return match (strtolower((string) $role)) {
+            'admin', 'administrador' => User::TYPE_ADMIN,
+            'subastador' => User::TYPE_AUCTIONEER,
+            default => User::TYPE_BIDDER,
+        };
+    }
 
 
     public function destroy($id)
