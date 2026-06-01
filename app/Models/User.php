@@ -98,11 +98,7 @@ class User extends Authenticatable implements JWTSubject  // <- implementa la in
             return true;
         }
 
-        if ($this->hasRole(self::TYPE_BIDDER)) {
-            return true;
-        }
-
-        return $this->user_type === self::TYPE_BIDDER && $this->roles->isEmpty();
+        return false;
     }
 
     public function hasActivePlan(): bool

@@ -1,208 +1,149 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>B&B Store | Tienda virtual al alcance de todos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --brand-orange: #ff7f2a;
-            --brand-pink: #f4289d;
-            --brand-purple: #8c3dff;
-            --brand-cyan: #23c8f5;
-            --brand-dark: #111827;
-        }
+<x-public-layout title="BidFixx | Subastas online inteligentes" :categories="$categories ?? collect()">
+    @php
+        $featuredCategories = ($categories ?? collect())->take(6);
+        $auctionCards = ($featuredAuctions ?? collect())->take(6);
+    @endphp
 
-        body {
-            background: linear-gradient(180deg, #f9fafb 0%, #ffffff 45%, #f3f4f6 100%);
-            color: #1f2937;
-        }
-
-        .brand-gradient {
-            background: linear-gradient(115deg, var(--brand-orange), var(--brand-pink), var(--brand-purple), var(--brand-cyan));
-        }
-
-        .site-header {
-            backdrop-filter: blur(8px);
-            background: rgba(255, 255, 255, 0.88);
-            border-bottom: 1px solid rgba(17, 24, 39, 0.06);
-        }
-
-        .logo-wrap {
-            width: 90px;
-            height: 90px;
-            border-radius: 16px;
-            padding: 6px;
-            background: white;
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.16);
-        }
-
-        .hero-banner {
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 24px 55px rgba(17, 24, 39, 0.18);
-            overflow: hidden;
-        }
-
-        .hero-content {
-            background: linear-gradient(135deg, rgba(17, 24, 39, 0.88), rgba(79, 70, 229, 0.78));
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.92);
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 14px 35px rgba(17, 24, 39, 0.12);
-        }
-
-        .feature-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            background: linear-gradient(120deg, var(--brand-orange), var(--brand-purple));
-        }
-
-        .btn-brand {
-            color: #fff;
-            border: 0;
-            background: linear-gradient(120deg, var(--brand-orange), var(--brand-pink), var(--brand-purple));
-            box-shadow: 0 10px 24px rgba(140, 61, 255, 0.24);
-            transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
-        }
-
-        .btn-brand:hover {
-            color: #fff;
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 16px 34px rgba(140, 61, 255, 0.3);
-            filter: brightness(1.06);
-        }
-
-        .btn-motion {
-            animation: floatingPulse 3.2s ease-in-out infinite;
-        }
-
-        .btn-motion:nth-child(2) {
-            animation-delay: .35s;
-        }
-
-        @keyframes floatingPulse {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-3px);
-            }
-        }
-
-        .btn-outline-brand {
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            color: #fff;
-        }
-
-        .btn-outline-brand:hover {
-            color: var(--brand-dark);
-            background: #fff;
-        }
-
-        .contact-card {
-            border-radius: 18px;
-            border: 1px solid rgba(17, 24, 39, 0.08);
-            background: #fff;
-            height: 100%;
-        }
-
-        .social-link {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            text-decoration: none;
-            background: linear-gradient(130deg, var(--brand-pink), var(--brand-purple));
-            transition: transform .2s ease;
-        }
-
-        .social-link:hover {
-            transform: translateY(-2px);
-        }
-    </style>
-</head>
-<body>
-    <header class="site-header sticky-top">
-        <div class="container py-3 d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-                <div class="logo-wrap">
-                    <img src="{{ asset('imagenes/logo.jpg') }}" alt="Logo B&B Store" class="img-fluid rounded-3">
-                </div>
-                <div>
-                    <h1 class="h4 mb-0 fw-bold">B&B Store</h1>
-                    <small class="text-muted">Tienda virtual al alcance de todos</small>
-                </div>
+    <section class="hero-shell">
+        <div id="homeAuctionCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5200">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Subastas inteligentes"></button>
+                <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="1" aria-label="Vende como subastador"></button>
+                <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="2" aria-label="Ofertas seguras"></button>
             </div>
-            <a href="{{ route('credit-applications.create') }}" class="btn btn-brand rounded-pill px-4">Solicitar crédito</a>
-        </div>
-    </header>
-
-    <main class="container py-5">
-        <section class="hero-banner brand-gradient mb-5">
-            <div class="hero-content p-4 p-lg-5 text-white">
-                <div class="row g-4 align-items-center">
-                    <div class="col-lg-7">
-                        <p class="text-uppercase fw-semibold mb-2" style="letter-spacing: .15rem;">Sobre nosotros</p>
-                        <h2 class="display-5 fw-bold mb-3">Impulsamos tus compras con estilo, cercanía y confianza.</h2>
-                        <p class="lead mb-4">En B&B Store reunimos productos de calidad y alternativas de financiación fáciles para que compres desde casa de forma segura, rápida y profesional.</p>
-                        <div class="d-flex flex-wrap gap-3">
-                            <a href="{{ route('credit-applications.create') }}" class="btn btn-brand btn-lg rounded-pill px-4 btn-motion">Solicitar crédito</a>
-                            <a href="{{ route('credit-portal.index') }}" class="btn btn-outline-brand btn-lg rounded-pill px-4 btn-motion">Consultar y pagar</a>
+            <div class="carousel-inner rounded-5 overflow-hidden">
+                <div class="carousel-item active">
+                    <div class="hero-slide hero-slide-primary">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-7">
+                                <span class="eyebrow">Subastas online inteligentes</span>
+                                <h2 class="display-4 fw-black mt-3 mb-3">Compra y vende activos en subastas confiables, ágiles y transparentes.</h2>
+                                <p class="lead mb-4">BidFixx conecta subastadores profesionales con ofertantes verificados para competir en tiempo real por vehículos, maquinaria, inmuebles, mobiliario y más.</p>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <a href="{{ route('public.auctions.index') }}" class="btn btn-brand btn-lg rounded-pill px-4">Ver subastas</a>
+                                    <a href="{{ route('register.bidder') }}" class="btn btn-outline-light btn-lg rounded-pill px-4">Registrarme para ofertar</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="hero-metric-card">
+                                    <i class="bi bi-hammer display-3 text-brand-cyan"></i>
+                                    <h3 class="h2 fw-bold mt-3">Ofertas en vivo</h3>
+                                    <p class="mb-0 text-white-75">Consulta fechas, precio base, ficha técnica y condiciones antes de pujar.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
-                        <div class="glass-card p-4 text-dark">
-                            <h3 class="h5 fw-bold mb-3">¿Por qué elegirnos?</h3>
-                            <ul class="list-unstyled mb-0">
-                                <li class="mb-2"><span class="feature-dot"></span>Atención personalizada en todo el proceso.</li>
-                                <li class="mb-2"><span class="feature-dot"></span>Créditos ágiles con seguimiento en línea.</li>
-                                <li class="mb-2"><span class="feature-dot"></span>Pagos seguros y transparentes.</li>
-                                <li><span class="feature-dot"></span>Compromiso con la satisfacción de cada cliente.</li>
-                            </ul>
+                </div>
+                <div class="carousel-item">
+                    <div class="hero-slide hero-slide-secondary">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-7">
+                                <span class="eyebrow">Para subastadores</span>
+                                <h2 class="display-5 fw-black mt-3 mb-3">Publica lotes, administra pujas y recibe compradores calificados.</h2>
+                                <p class="lead mb-4">Crea tu cuenta de subastador y accede al panel administrativo para cargar productos, documentos, imágenes y condiciones de venta.</p>
+                                <a href="{{ route('register.auctioneer') }}" class="btn btn-brand btn-lg rounded-pill px-4">Ser subastador</a>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="hero-metric-card bg-white text-dark">
+                                    <i class="bi bi-kanban display-3 text-brand-blue"></i>
+                                    <h3 class="h2 fw-bold mt-3">Panel profesional</h3>
+                                    <p class="mb-0 text-muted">Control total del inventario, calendario de subastas y seguimiento a ofertas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="hero-slide hero-slide-tertiary">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-7">
+                                <span class="eyebrow">Para ofertantes</span>
+                                <h2 class="display-5 fw-black mt-3 mb-3">Regístrate, permanece en la zona pública y oferta sin fricción.</h2>
+                                <p class="lead mb-4">Tu cuenta de ofertante queda lista para explorar categorías, revisar subastas activas y enviar ofertas desde la ficha pública del lote.</p>
+                                <a href="{{ route('register.bidder') }}" class="btn btn-light btn-lg rounded-pill px-4 text-brand-blue fw-bold">Crear cuenta ofertante</a>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="hero-metric-card">
+                                    <i class="bi bi-shield-check display-3 text-brand-cyan"></i>
+                                    <h3 class="h2 fw-bold mt-3">Proceso seguro</h3>
+                                    <p class="mb-0 text-white-75">Usuarios identificados, historial de pujas y reglas claras para cada subasta.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+            <button class="carousel-control-prev" type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Anterior</span></button>
+            <button class="carousel-control-next" type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Siguiente</span></button>
+        </div>
+    </section>
 
-    <footer class="py-5" style="background: #0f172a; color: #e5e7eb;">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <h3 class="h5 fw-bold mb-3">B&B Store</h3>
-                    <p class="mb-0 text-white-50">Tienda virtual con atención cálida, soluciones de crédito y envíos a todo el país.</p>
+    <section class="container py-5" id="categorias">
+        <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3 mb-4">
+            <div>
+                <span class="section-kicker">Explora por categoría</span>
+                <h2 class="fw-black mb-2">Encuentra oportunidades por tipo de activo</h2>
+                <p class="text-muted mb-0">Las categorías muestran sus subcategorías en el menú y aquí se presentan con imagen para navegación rápida.</p>
+            </div>
+            <a href="{{ route('public.auctions.index') }}" class="btn btn-soft-brand rounded-pill px-4">Ver todas las subastas</a>
+        </div>
+        <div class="row g-4">
+            @forelse($featuredCategories as $category)
+                <div class="col-md-6 col-xl-4">
+                    <a href="{{ route('public.auctions.index', ['categoria' => $category->slug]) }}" class="category-tile">
+                        <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" onerror="this.src='{{ asset('images/auction-products/1275010a-5b99-4302-8a1a-1ad3d49868ad.png') }}'">
+                        <span class="category-overlay"></span>
+                        <span class="category-content">
+                            <strong>{{ $category->name }}</strong>
+                            <small>{{ $category->subcategories->count() }} subcategorías</small>
+                        </span>
+                    </a>
                 </div>
-                <div class="col-md-4">
-                    <h4 class="h6 fw-bold text-uppercase mb-3">Contacto</h4>
-                    <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i>Carrera 59 bb # 40c - 50 Bello - Antioquia</p>
-                    <p class="mb-0"><i class="bi bi-phone-fill me-2"></i>Celular / WhatsApp: +57 3042933031</p>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="h6 fw-bold text-uppercase mb-3">Síguenos</h4>
-                    <div class="d-flex gap-2 mb-2">
-                        <a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="social-link" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
-                        <a href="#" class="social-link" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+            @empty
+                @foreach(['Vehículos', 'Maquinaria', 'Inmuebles'] as $placeholder)
+                    <div class="col-md-6 col-xl-4">
+                        <div class="category-tile placeholder-tile">
+                            <span class="category-overlay"></span>
+                            <span class="category-content"><strong>{{ $placeholder }}</strong><small>Configura categorías en el panel</small></span>
+                        </div>
                     </div>
-                    <small class="text-white-50 d-block">© {{ now()->year }} B&B Store. Todos los derechos reservados.</small>
-                    <small class="text-white-50">Powered by <a href="https://yefersonsossa.com/" target="_blank" rel="noopener noreferrer" class="text-white">yefersonsossa.com</a></small>
+                @endforeach
+            @endforelse
+        </div>
+    </section>
+
+    <section class="container pb-5">
+        <div class="cta-panel p-4 p-lg-5">
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                    <span class="section-kicker text-white-50">Únete a BidFixx</span>
+                    <h2 class="fw-black text-white mb-3">Dos caminos, una plataforma de subastas profesional.</h2>
+                    <p class="text-white-75 mb-0">Si vendes activos, regístrate como subastador y entrarás al panel administrativo. Si compras, crea tu cuenta de ofertante y permanece en la experiencia pública para ofertar.</p>
+                </div>
+                <div class="col-lg-5 d-flex flex-column flex-sm-row gap-3 justify-content-lg-end">
+                    <a href="{{ route('register.auctioneer') }}" class="btn btn-light btn-lg rounded-pill px-4 text-brand-blue fw-bold">Ser subastador</a>
+                    <a href="{{ route('register.bidder') }}" class="btn btn-brand btn-lg rounded-pill px-4">Ser ofertante</a>
                 </div>
             </div>
         </div>
-    </footer>
-</body>
-</html>
+    </section>
+
+    <section class="container pb-5">
+        <div class="d-flex justify-content-between align-items-end gap-3 mb-4">
+            <div>
+                <span class="section-kicker">Subastas destacadas</span>
+                <h2 class="fw-black mb-0">Lotes recientes</h2>
+            </div>
+            <a href="{{ route('public.auctions.index') }}" class="btn btn-outline-brand rounded-pill">Ver más</a>
+        </div>
+        <div class="row g-4">
+            @forelse($auctionCards as $auction)
+                <div class="col-md-6 col-xl-4">
+                    @include('public.auctions._card', ['auction' => $auction])
+                </div>
+            @empty
+                <div class="col-12"><div class="empty-state">Aún no hay subastas publicadas. Crea productos desde el panel administrativo.</div></div>
+            @endforelse
+        </div>
+    </section>
+</x-public-layout>
