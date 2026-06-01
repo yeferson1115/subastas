@@ -63,10 +63,11 @@
                 </div>
             @endforeach
         </div>
-
+         @can('Editar Planes')
         <button type="submit" class="btn btn-success">
             <i class="fa-solid fa-save"></i> Guardar planes
         </button>
+        @endcan
     </form>
 </div>
 @endsection

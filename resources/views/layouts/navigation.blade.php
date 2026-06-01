@@ -33,16 +33,7 @@
                           <div data-i18n="Clientes subastadores">Clientes subastadores</div>
                         </a>
                       </li>
-                      @endcan
-
-                      @can('Ver Categorias')
-                      <li class="menu-item">
-                        <a href="{{ route('categories.index') }}" class="menu-link">
-                          <i class="menu-icon fa-solid fa-layer-group"></i>
-                          <div data-i18n="Categorías">Categorías</div>
-                        </a>
-                      </li>
-                      @endcan
+                      @endcan                    
 
 
 
@@ -86,6 +77,15 @@
                         <a href="{{ route('admin.plans.index') }}" class="menu-link">
                           <i class="menu-icon fa-solid fa-tags"></i>
                           <div data-i18n="Planes">Planes</div>
+                        </a>
+                      </li>
+                      @endcan
+
+                      @can('Ver Categorias')
+                      <li class="menu-item">
+                        <a href="{{ route('categories.index') }}" class="menu-link">
+                          <i class="menu-icon fa-solid fa-layer-group"></i>
+                          <div data-i18n="Categorías">Categorías</div>
                         </a>
                       </li>
                       @endcan
