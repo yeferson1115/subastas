@@ -76,6 +76,12 @@
                         </a>
                       </li>
                       <li class="menu-item">
+                        <a href="{{ route('admin.plans.index') }}" class="menu-link">
+                          <i class="menu-icon fa-solid fa-tags"></i>
+                          <div data-i18n="Planes">Planes</div>
+                        </a>
+                      </li>
+                      <li class="menu-item">
                         <a href="{{ route('admin.credit-applications.index') }}" class="menu-link">
                           <i class="menu-icon fa-solid fa-file-signature"></i>
                           <div data-i18n="Solicitudes Crédito">Solicitudes Crédito</div>

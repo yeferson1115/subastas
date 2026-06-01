@@ -43,6 +43,8 @@
                                         <th>Documento / NIT</th>
                                         <th>Contacto</th>
                                         <th>Correo</th>
+                                        <th>Plan</th>
+                                        <th>Vence</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,6 +72,16 @@
                                             <td>{{ $client->company_document_number ?: $client->document_number }}</td>
                                             <td>{{ $client->auctioneer_client_type === 'empresa' ? $client->company_legal_representative : trim($client->name . ' ' . $client->last_name) }}</td>
                                             <td>{{ $client->email }}</td>
+                                            <td>{{ $client->plan?->name ?? 'Sin plan' }}</td>
+                                            <td>
+                                                @if ($client->plan_expires_at)
+                                                    <span class="badge bg-{{ $client->hasActivePlan() ? 'success' : 'danger' }}">
+                                                        {{ $client->plan_expires_at->format('d/m/Y') }}
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-secondary">Sin vigencia</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

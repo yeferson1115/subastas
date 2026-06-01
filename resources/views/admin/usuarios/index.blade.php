@@ -44,6 +44,8 @@
                                         <th>Genero</th>
                                         <th>Tipo</th>
                                         <th>E-amail</th>
+                                        <th>Plan</th>
+                                        <th>Vence</th>
                                        
                                         
 
@@ -84,6 +86,14 @@
                                            
                                         </td>
                                         <td>{{ $user->email  }}</td>
+                                        <td>{{ $user->plan?->name ?? 'Sin plan' }}</td>
+                                        <td>
+                                            @if ($user->plan_expires_at)
+                                                <span class="badge bg-{{ $user->hasActivePlan() ? 'success' : 'danger' }}">{{ $user->plan_expires_at->format('d/m/Y') }}</span>
+                                            @else
+                                                <span class="badge bg-secondary">Sin vigencia</span>
+                                            @endif
+                                        </td>
                                         
                                         
                                         
