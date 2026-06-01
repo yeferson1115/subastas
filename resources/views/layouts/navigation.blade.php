@@ -109,6 +109,12 @@
                       <div data-i18n="Productos a subastar">Productos a subastar</div>
                     </a>
                   </li>
+                  <li class="menu-item">
+                    <a href="{{ route('admin.auctions.index') }}" class="menu-link">
+                      <i class="menu-icon fa-solid fa-gavel"></i>
+                      <div data-i18n="Subastas">Subastas</div>
+                    </a>
+                  </li>
                   @endcan
                 </ul>
               </div>
