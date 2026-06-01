@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AuctionProduct extends Model
 {
@@ -74,5 +76,62 @@ class AuctionProduct extends Model
     public function subcategory(): BelongsTo
     {
         return $this->belongsTo(Subcategory::class);
+    }
+
+    public function bids(): HasMany
+    {
+        return $this->hasMany(AuctionBid::class)->orderByDesc('amount')->orderBy('created_at');
+    }
+
+    public function highestBid(): HasMany
+    {
+        return $this->hasMany(AuctionBid::class)->orderByDesc('amount')->orderBy('created_at');
+    }
+
+    public function getStartsAtAttribute(): ?Carbon
+    {
+        return $this->combineAuctionDateTime($this->auction_start_date, $this->auction_start_time);
+    }
+
+    public function getEndsAtAttribute(): ?Carbon
+    {
+        return $this->combineAuctionDateTime($this->auction_end_date, $this->auction_end_time);
+    }
+
+    public function getIsActiveAttribute(): bool
+    {
+        $now = now();
+
+        return $this->starts_at !== null
+            && $this->ends_at !== null
+            && $this->starts_at->lessThanOrEqualTo($now)
+            && $this->ends_at->greaterThanOrEqualTo($now);
+    }
+
+    public function getIsFinishedAttribute(): bool
+    {
+        return $this->ends_at !== null && $this->ends_at->isPast();
+    }
+
+    public function getAuctionStatusAttribute(): string
+    {
+        if ($this->is_finished) {
+            return 'Terminada';
+        }
+
+        if ($this->is_active) {
+            return 'Activa';
+        }
+
+        return 'Programada';
+    }
+
+    private function combineAuctionDateTime($date, ?string $time): ?Carbon
+    {
+        if (! $date || ! $time) {
+            return null;
+        }
+
+        return Carbon::parse($date->format('Y-m-d') . ' ' . $time);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctioneerClientController;
+use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SubcategoryController;
@@ -54,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('categories/{category}/subcategories/json', [SubcategoryController::class, 'byCategory'])->name('categories.subcategories.json');
     Route::resource('subcategories', SubcategoryController::class)->except(['show']);
     Route::resource('auction-products', AuctionProductController::class)->except(['show']);
+    Route::get('admin/auctions', [AuctionController::class, 'index'])->name('admin.auctions.index');
+    Route::get('admin/auctions/{auction}', [AuctionController::class, 'show'])->name('admin.auctions.show');
     Route::get('admin/plans', [PlanController::class, 'index'])->name('admin.plans.index');
     Route::put('admin/plans', [PlanController::class, 'update'])->name('admin.plans.update');
     Route::get('admin/auctioneer-clients', [AuctioneerClientController::class, 'index'])->name('admin.auctioneer-clients.index');
