@@ -13,6 +13,13 @@ class User extends Authenticatable implements JWTSubject  // <- implementa la in
 {
     use Notifiable, HasRoles;
 
+    public const TYPE_ADMIN = 'admin';
+    public const TYPE_AUCTIONEER = 'subastador';
+    public const TYPE_BIDDER = 'ofertante';
+
+    public const AUCTIONEER_NATURAL = 'natural';
+    public const AUCTIONEER_COMPANY = 'empresa';
+
     protected $fillable = [
         'name',
         'last_name',
@@ -21,7 +28,18 @@ class User extends Authenticatable implements JWTSubject  // <- implementa la in
         'contact',
         'signature_path',
         'password',
-        'gender'
+        'gender',
+        'user_type',
+        'auctioneer_client_type',
+        'document_type',
+        'document_number',
+        'address',
+        'city',
+        'company_name',
+        'company_document_number',
+        'company_legal_representative',
+        'company_phone',
+        'company_address'
     ];
 
     protected $hidden = [

@@ -14,13 +14,17 @@ class RoleSeeder extends Seeder
      */
    public function run()
     {
-        $admin = Role::create(['name' => 'admin']);
-        $user = Role::create(['name' => 'user']);
+        $admin = Role::firstOrCreate(['name' => 'admin']);
+        $auctioneer = Role::firstOrCreate(['name' => 'subastador']);
+        $bidder = Role::firstOrCreate(['name' => 'ofertante']);
+        $user = Role::firstOrCreate(['name' => 'user']);
 
-        Permission::create(['name' => 'manage users']);
-        Permission::create(['name' => 'view reports']);
+        $manageUsers = Permission::firstOrCreate(['name' => 'manage users']);
+        $viewReports = Permission::firstOrCreate(['name' => 'view reports']);
 
-        $admin->givePermissionTo(['manage users', 'view reports']);
-        $user->givePermissionTo(['view reports']);
+        $admin->givePermissionTo([$manageUsers, $viewReports]);
+        $auctioneer->givePermissionTo([$viewReports]);
+        $bidder->givePermissionTo([$viewReports]);
+        $user->givePermissionTo([$viewReports]);
     }
 }

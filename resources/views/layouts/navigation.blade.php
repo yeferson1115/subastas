@@ -25,6 +25,12 @@
                           <div data-i18n="Usuarios">Usuarios</div>
                         </a>
                       </li>
+                      <li class="menu-item">
+                        <a href="{{ route('admin.auctioneer-clients.index') }}" class="menu-link">
+                          <i class="menu-icon fa-solid fa-gavel"></i>
+                          <div data-i18n="Clientes subastadores">Clientes subastadores</div>
+                        </a>
+                      </li>
                       @endcan
                      
                       
