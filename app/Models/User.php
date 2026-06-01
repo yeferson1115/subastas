@@ -7,6 +7,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;  // <- importa esta interfaz
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Auth\Notifications\ResetPassword;
 use App\Notifications\CustomResetPasswordNotification;
 
@@ -75,6 +76,11 @@ class User extends Authenticatable implements JWTSubject  // <- implementa la in
         return [];
     }
 
+
+    public function auctionProducts(): HasMany
+    {
+        return $this->hasMany(AuctionProduct::class, 'auctioneer_id');
+    }
 
     public function plan(): BelongsTo
     {

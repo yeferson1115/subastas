@@ -10,6 +10,15 @@
                     </a>
                   </li>
 
+
+
+                  <li class="menu-item">
+                    <a href="{{ route('auction-products.index') }}" class="menu-link">
+                      <i class="menu-icon fa-solid fa-box-open"></i>
+                      <div data-i18n="Productos a subastar">Productos a subastar</div>
+                    </a>
+                  </li>
+
                   @can('Administracion')
                   <li class="menu-item">
                     <a href="javascript:void(0)" class="menu-link menu-toggle">
@@ -89,6 +98,13 @@
                         </a>
                       </li>
                       @endcan
+
+                      <li class="menu-item">
+                        <a href="{{ route('subcategories.index') }}" class="menu-link">
+                          <i class="menu-icon fa-solid fa-sitemap"></i>
+                          <div data-i18n="Subcategorías">Subcategorías</div>
+                        </a>
+                      </li>
 
                     </ul>
                   </li>
