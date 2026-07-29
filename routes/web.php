@@ -21,6 +21,7 @@ use App\Http\Controllers\PublicCreditPortalController;
 use App\Http\Controllers\PublicAuctionController;
 use App\Http\Controllers\PublicRegistrationController;
 use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\AdminContactMessageController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -74,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/plans', [PlanController::class, 'index'])->name('admin.plans.index');
     Route::put('admin/plans', [PlanController::class, 'update'])->name('admin.plans.update');
     Route::get('admin/auctioneer-clients', [AuctioneerClientController::class, 'index'])->name('admin.auctioneer-clients.index');
+    Route::get('admin/contact-messages', [AdminContactMessageController::class, 'index'])->name('admin.contact-messages.index');
     Route::get('admin/auctioneer-clients/create', [AuctioneerClientController::class, 'create'])->name('admin.auctioneer-clients.create');
     Route::post('admin/auctioneer-clients', [AuctioneerClientController::class, 'store'])->name('admin.auctioneer-clients.store');
     Route::get('admin/auctioneer-clients/{auctioneerClient}/edit', [AuctioneerClientController::class, 'edit'])->name('admin.auctioneer-clients.edit');

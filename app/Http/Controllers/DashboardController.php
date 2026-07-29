@@ -3,34 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Models\AuctionProduct;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Fecha actual
-        $today = Carbon::today();
-        $month = Carbon::now()->month;
-
-        // Total ventas del día (cerrados y pagados)
-        $salesToday = 0;
-
-        // Total ventas del mes
-        $salesMonth = 0;
-
-        // Cantidad de pedidos del día
-        $ordersToday = 0;
-
-        // Cantidad de pedidos del mes
-        $ordersMonth = 0;
+        $totalAuctions = AuctionProduct::count();
+        $totalBidders = User::query()
+            ->where('user_type', User::TYPE_BIDDER)
+            ->orWhereHas('roles', function ($query) {
+                $query->where('name', User::TYPE_BIDDER);
+            })
+            ->count();
 
         return view('admin.home.dashboard', compact(
-            'salesToday',
-            'salesMonth',
-            'ordersToday',
-            'ordersMonth'
+            'totalAuctions',
+            'totalBidders'
         ));
     }
 
