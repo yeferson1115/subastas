@@ -12,6 +12,7 @@
         <div class="col-md-4"><label class="form-label">Representante legal</label><input name="company_legal_representative" class="form-control" value="{{ old('company_legal_representative') }}"></div>
         <div class="col-md-4"><label class="form-label">Teléfono empresa</label><input name="company_phone" class="form-control" value="{{ old('company_phone') }}"></div>
         <div class="col-md-4"><label class="form-label">Dirección empresa</label><input name="company_address" class="form-control" value="{{ old('company_address') }}"></div>
+        @include('public.register._plan-selector')
         @include('public.register._password-fields')
         <div class="col-12"><button class="btn btn-brand btn-lg rounded-pill px-5" type="submit">Crear cuenta subastador</button></div>
     </form>

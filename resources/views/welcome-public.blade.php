@@ -10,6 +10,7 @@
                 <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Subastas inteligentes"></button>
                 <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="1" aria-label="Vende como subastador"></button>
                 <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="2" aria-label="Ofertas seguras"></button>
+                <button type="button" data-bs-target="#homeAuctionCarousel" data-bs-slide-to="3" aria-label="Planes para crecer"></button>
             </div>
             <div class="carousel-inner  overflow-hidden">
                 <div class="carousel-item active">
@@ -67,6 +68,28 @@
                                     <i class="bi bi-shield-check display-3 text-brand-cyan"></i>
                                     <h3 class="h2 fw-bold mt-3">Proceso seguro</h3>
                                     <p class="mb-0 text-white-75">Usuarios identificados, historial de pujas y reglas claras para cada subasta.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="hero-slide hero-slide-quaternary">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-7">
+                                <span class="eyebrow">Planes activados desde el registro</span>
+                                <h2 class="display-5 fw-black mt-3 mb-3">Elige tu plan, crea tu cuenta y empieza con beneficios asignados al instante.</h2>
+                                <p class="lead mb-4">Subastadores y ofertantes seleccionan su plan antes de finalizar el registro. La activación queda lista mientras preparamos la pasarela de pagos.</p>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <a href="{{ route('register.auctioneer') }}" class="btn btn-light btn-lg rounded-pill px-4 text-brand-blue fw-bold">Plan subastador</a>
+                                    <a href="{{ route('register.bidder') }}" class="btn btn-brand btn-lg rounded-pill px-4">Plan ofertante</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="hero-metric-card bg-white text-dark">
+                                    <i class="bi bi-stars display-3 text-brand-cyan"></i>
+                                    <h3 class="h2 fw-bold mt-3">Experiencia premium</h3>
+                                    <p class="mb-0 text-muted">Una plataforma con identidad visual renovada, botones claros y rutas de usuario sin confusión.</p>
                                 </div>
                             </div>
                         </div>
