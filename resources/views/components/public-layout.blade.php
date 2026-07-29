@@ -113,7 +113,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a href="{{ route('home') }}" class="navbar-brand logo-wrap" aria-label="Ir a la página principal">
-                    <img src="{{ asset('imagenes/logo.jpg') }}" alt="Logo BidFixx">
+                    <img src="{{ asset('imagenes/logo.png') }}" alt="Logo BidFixx">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar" aria-controls="publicNavbar" aria-expanded="false" aria-label="Abrir menú">
                     <span class="navbar-toggler-icon"></span>
