@@ -35,7 +35,13 @@
                           <div data-i18n="Clientes subastadores">Clientes subastadores</div>
                         </a>
                       </li>
-                      @endcan                    
+                      @endcan
+                      <li class="menu-item">
+                        <a href="{{ route('admin.contact-messages.index') }}" class="menu-link">
+                          <i class="menu-icon fa-solid fa-envelope-open-text"></i>
+                          <div data-i18n="Mensajes recibidos">Mensajes recibidos</div>
+                        </a>
+                      </li>
 
 
 

@@ -7,32 +7,32 @@
 
     <div class="row g-4 mt-5">
 @can('Administracion')
-        <!-- VENTAS DEL DÍA -->
+        <!-- SUBASTAS TOTALES -->
         <div class="col-md-6">
             <div class="card shadow-lg border-0 dashboard-card text-center p-4">
                 <div class="dashboard-icon mb-3">
-                    <i class="fas fa-coins fa-3x text-primary"></i>
+                    <i class="fas fa-gavel fa-3x text-primary"></i>
                 </div>
-                <h5 class="fw-bold text-secondary mb-1">Pagos del Día</h5>
+                <h5 class="fw-bold text-secondary mb-1">Subastas totales</h5>
                 <h2 class="fw-bold text-dark mb-0">
-                    ${{ number_format($salesToday, 2) }}
+                    {{ number_format($totalAuctions) }}
                 </h2>
-                <p class="mt-2 text-muted">Pedidos: <strong>{{ $ordersToday }}</strong></p>
+                <p class="mt-2 text-muted">Productos publicados para subasta</p>
             </div>
         </div>
 
 
-        <!-- VENTAS DEL MES -->
+        <!-- OFERTANTES -->
         <div class="col-md-6">
             <div class="card shadow-lg border-0 dashboard-card text-center p-4">
                 <div class="dashboard-icon mb-3">
-                    <i class="fas fa-chart-line fa-3x text-success"></i>
+                    <i class="fas fa-users fa-3x text-success"></i>
                 </div>
-                <h5 class="fw-bold text-secondary mb-1">Solicitudes del del Día</h5>
+                <h5 class="fw-bold text-secondary mb-1">Cantidad de ofertantes</h5>
                 <h2 class="fw-bold text-dark mb-0">
-                    ${{ number_format($salesMonth, 2) }}
+                    {{ number_format($totalBidders) }}
                 </h2>
-                <p class="mt-2 text-muted">Pedidos: <strong>{{ $ordersMonth }}</strong></p>
+                <p class="mt-2 text-muted">Usuarios registrados como ofertantes</p>
             </div>
         </div>
         @endcan

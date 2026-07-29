@@ -35,6 +35,10 @@ class LoginController extends Controller
             }
 
             $request->session()->regenerate();
+            if ($user->user_type === \App\Models\User::TYPE_ADMIN || $user->hasRole(\App\Models\User::TYPE_ADMIN)) {
+                return redirect()->route('index');
+            }
+
             if ($user->user_type === \App\Models\User::TYPE_BIDDER || $user->hasRole(\App\Models\User::TYPE_BIDDER)) {
                 return redirect()->route('public.auctions.index');
             }
