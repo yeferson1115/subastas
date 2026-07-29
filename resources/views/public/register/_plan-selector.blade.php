@@ -8,7 +8,7 @@
             <div>
                 <span class="section-kicker">Elige tu plan</span>
                 <h2 class="h4 fw-black mb-1">Selecciona el plan para activar tu cuenta</h2>
-                <p class="text-muted mb-0">La pasarela de pagos se implementará más adelante; por ahora tu cuenta queda asignada al plan elegido.</p>
+                <p class="text-muted mb-0">El primer año es totalmente gratis</p>
             </div>
         </div>
         <div class="row g-3">
