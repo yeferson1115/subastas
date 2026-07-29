@@ -137,6 +137,7 @@
                     <ul class="navbar-nav mx-lg-auto mb-3 mb-lg-0 gap-lg-1">
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('public.auctions.index') }}">Subastas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('public.contact') }}">Contacto</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
                             <ul class="dropdown-menu p-2">
@@ -185,7 +186,7 @@
             <div class="row g-4">
                 <div class="col-md-4"><h3 class="h5 fw-bold mb-3">BidFixx</h3><p class="mb-0 text-white-75">Subastas online inteligentes para conectar activos, subastadores y ofertantes en un proceso transparente.</p></div>
                 <div class="col-md-4"><h4 class="h6 fw-bold text-uppercase mb-3">Contacto</h4><p class="mb-1"><i class="bi bi-envelope-fill me-2"></i>info@bidfixx.com</p><p class="mb-0"><i class="bi bi-phone-fill me-2"></i>Soporte comercial</p></div>
-                <div class="col-md-4"><h4 class="h6 fw-bold text-uppercase mb-3">Síguenos</h4><div class="d-flex gap-2 mb-2"><a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" class="social-link" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a><a href="#" class="social-link" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></div><small class="text-white-75 d-block">© {{ now()->year }} BidFixx. Todos los derechos reservados.</small></div>
+                <div class="col-md-4"><h4 class="h6 fw-bold text-uppercase mb-3">Legal</h4><ul class="list-unstyled mb-3"><li class="mb-2"><a class="text-white-75 text-decoration-none" href="{{ route('public.terms') }}">Términos y condiciones</a></li><li><a class="text-white-75 text-decoration-none" href="{{ route('public.privacy') }}">Política de privacidad</a></li></ul><h4 class="h6 fw-bold text-uppercase mb-3">Síguenos</h4><div class="d-flex gap-2 mb-2"><a href="#" class="social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a><a href="#" class="social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a><a href="#" class="social-link" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a><a href="#" class="social-link" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></div><small class="text-white-75 d-block">© {{ now()->year }} BidFixx. Todos los derechos reservados.</small></div>
             </div>
         </div>
     </footer>
