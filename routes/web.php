@@ -20,6 +20,7 @@ use App\Http\Controllers\AdminCreditPaymentController;
 use App\Http\Controllers\PublicCreditPortalController;
 use App\Http\Controllers\PublicAuctionController;
 use App\Http\Controllers\PublicRegistrationController;
+use App\Http\Controllers\PublicPageController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -27,6 +28,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/', [PublicCreditPortalController::class, 'home'])->name('home');
 Route::get('/subastas', [PublicAuctionController::class, 'index'])->name('public.auctions.index');
+Route::get('/contacto', [PublicPageController::class, 'contact'])->name('public.contact');
+Route::post('/contacto', [PublicPageController::class, 'storeContact'])->name('public.contact.store');
+Route::get('/terminos-y-condiciones', [PublicPageController::class, 'terms'])->name('public.terms');
+Route::get('/politica-de-privacidad', [PublicPageController::class, 'privacy'])->name('public.privacy');
 Route::get('/subastas/{auctionProduct:slug}', [PublicAuctionController::class, 'show'])->name('public.auctions.show');
 Route::post('/subastas/{auctionProduct:slug}/ofertar', [PublicAuctionController::class, 'bid'])->middleware('auth')->name('public.auctions.bid');
 Route::get('/registro/ofertante', [PublicRegistrationController::class, 'bidder'])->middleware('guest')->name('register.bidder');
