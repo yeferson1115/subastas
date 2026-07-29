@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
@@ -16,12 +17,16 @@ class PublicRegistrationController extends Controller
 {
     public function bidder(): View
     {
-        return view('public.register.bidder');
+        return view('public.register.bidder', [
+            'plans' => $this->activePlans(User::TYPE_BIDDER),
+        ]);
     }
 
     public function auctioneer(): View
     {
-        return view('public.register.auctioneer');
+        return view('public.register.auctioneer', [
+            'plans' => $this->activePlans(User::TYPE_AUCTIONEER),
+        ]);
     }
 
     public function storeBidder(Request $request): RedirectResponse
@@ -29,6 +34,7 @@ class PublicRegistrationController extends Controller
         $data = $request->validate($this->baseRules() + [
             'address' => ['nullable', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:120'],
+            'plan_id' => $this->planRules(User::TYPE_BIDDER),
         ]);
 
         $user = $this->createUser($data, User::TYPE_BIDDER, [
@@ -37,7 +43,7 @@ class PublicRegistrationController extends Controller
         ]);
 
         $this->assignRole($user, User::TYPE_BIDDER);
-        $this->assignDefaultPlan($user, User::TYPE_BIDDER);
+        $this->assignSelectedPlan($user, User::TYPE_BIDDER, (int) $data['plan_id']);
         Auth::login($user);
         $request->session()->regenerate();
 
@@ -55,6 +61,7 @@ class PublicRegistrationController extends Controller
             'company_legal_representative' => ['nullable', 'string', 'max:255'],
             'company_phone' => ['nullable', 'string', 'max:50'],
             'company_address' => ['nullable', 'string', 'max:255'],
+            'plan_id' => $this->planRules(User::TYPE_AUCTIONEER),
         ]);
 
         $user = $this->createUser($data, User::TYPE_AUCTIONEER, [
@@ -69,7 +76,7 @@ class PublicRegistrationController extends Controller
         ]);
 
         $this->assignRole($user, User::TYPE_AUCTIONEER);
-        $this->assignDefaultPlan($user, User::TYPE_AUCTIONEER);
+        $this->assignSelectedPlan($user, User::TYPE_AUCTIONEER, (int) $data['plan_id']);
         Auth::login($user);
         $request->session()->regenerate();
 
@@ -110,16 +117,19 @@ class PublicRegistrationController extends Controller
         $user->assignRole($role);
     }
 
-    private function assignDefaultPlan(User $user, string $type): void
+    private function planRules(string $type): array
     {
-        $plan = Plan::firstOrCreate(
-            ['user_type' => $type],
-            ['duration_months' => Plan::DURATION_ONE_MONTH, 'price' => 0, 'is_active' => true]
-        );
+        return [
+            'required',
+            Rule::exists('plans', 'id')->where(fn ($query) => $query->where('user_type', $type)->where('is_active', true)),
+        ];
+    }
 
-        if (! $plan->is_active) {
-            return;
-        }
+    private function assignSelectedPlan(User $user, string $type, int $planId): void
+    {
+        $plan = $this->activePlans($type)->firstWhere('id', $planId);
+
+        abort_if(! $plan, 422, 'El plan seleccionado no está disponible.');
 
         $start = now();
 
@@ -128,6 +138,15 @@ class PublicRegistrationController extends Controller
             'plan_started_at' => $start,
             'plan_expires_at' => $start->copy()->addMonthsNoOverflow($plan->duration_months),
         ])->save();
+    }
+
+    private function activePlans(string $type)
+    {
+        return Plan::query()
+            ->where('user_type', $type)
+            ->where('is_active', true)
+            ->orderBy('duration_months')
+            ->get();
     }
 }
 

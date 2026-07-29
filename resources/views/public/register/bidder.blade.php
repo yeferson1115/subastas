@@ -5,6 +5,7 @@
         @include('public.register._identity-fields')
         <div class="col-md-6"><label class="form-label fw-bold">Ciudad</label><input name="city" class="form-control @error('city') is-invalid @enderror" value="{{ old('city') }}" required>@error('city')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
         <div class="col-md-6"><label class="form-label fw-bold">Dirección</label><input name="address" class="form-control @error('address') is-invalid @enderror" value="{{ old('address') }}">@error('address')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+        @include('public.register._plan-selector')
         @include('public.register._password-fields')
         <div class="col-12"><button class="btn btn-brand btn-lg rounded-pill px-5" type="submit">Crear cuenta ofertante</button></div>
     </form>
