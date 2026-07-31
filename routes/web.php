@@ -32,6 +32,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/', [PublicCreditPortalController::class, 'home'])->name('home');
 Route::get('/subastas', [PublicAuctionController::class, 'index'])->name('public.auctions.index');
 Route::get('/clasificados', [PublicClassifiedController::class, 'index'])->name('public.classifieds.index');
+Route::get('/clasificados/{classified:slug}', [PublicClassifiedController::class, 'show'])->name('public.classifieds.show');
 Route::get('/contacto', [PublicPageController::class, 'contact'])->name('public.contact');
 Route::post('/contacto', [PublicPageController::class, 'storeContact'])->name('public.contact.store');
 Route::get('/terminos-y-condiciones', [PublicPageController::class, 'terms'])->name('public.terms');

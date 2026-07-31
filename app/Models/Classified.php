@@ -27,6 +27,11 @@ class Classified extends Model
         'price' => 'decimal:2',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

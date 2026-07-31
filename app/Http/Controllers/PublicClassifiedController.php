@@ -26,4 +26,13 @@ class PublicClassifiedController extends Controller
 
         return view('public.classifieds.index', compact('classifieds', 'categories', 'selectedCategory', 'selectedSubcategory'));
     }
+
+    public function show(Classified $classified): View
+    {
+        $classified->load(['user', 'category', 'subcategory']);
+        $categories = Category::with('subcategories')->orderBy('name')->get();
+
+        return view('public.classifieds.show', compact('classified', 'categories'));
+    }
 }
+
