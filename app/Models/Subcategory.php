@@ -27,4 +27,9 @@ class Subcategory extends Model
     {
         return $this->hasMany(AuctionProduct::class);
     }
+
+    public function classifieds(): HasMany
+    {
+        return $this->hasMany(Classified::class);
+    }
 }
