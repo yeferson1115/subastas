@@ -87,6 +87,11 @@ class User extends Authenticatable implements JWTSubject  // <- implementa la in
         return $this->hasMany(AuctionBid::class);
     }
 
+    public function classifieds(): HasMany
+    {
+        return $this->hasMany(Classified::class);
+    }
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
