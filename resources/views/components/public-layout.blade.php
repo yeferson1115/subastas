@@ -137,8 +137,6 @@
                     <ul class="navbar-nav mx-lg-auto mb-3 mb-lg-0 gap-lg-1">
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('public.auctions.index') }}">Subastas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('public.classifieds.index') }}">Clasificados</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('public.contact') }}">Contacto</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorías</a>
                             <ul class="dropdown-menu p-2">
@@ -160,6 +158,7 @@
                                 @endforelse
                             </ul>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('public.classifieds.index') }}">Clasificados</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('public.contact') }}">Contacto</a></li>
                     </ul>
                     <div class="header-actions d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
