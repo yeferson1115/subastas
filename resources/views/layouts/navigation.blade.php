@@ -108,6 +108,15 @@
                     </ul>
                   </li>
                   @endcan
+
+                  @auth
+                  <li class="menu-item">
+                    <a href="{{ route('classifieds.index') }}" class="menu-link">
+                      <i class="menu-icon fa-solid fa-rectangle-ad"></i>
+                      <div data-i18n="Clasificados">Clasificados</div>
+                    </a>
+                  </li>
+                  @endauth
                   @can('Ver Productos')
                   <li class="menu-item">
                     <a href="{{ route('auction-products.index') }}" class="menu-link">
