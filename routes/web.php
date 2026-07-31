@@ -22,6 +22,8 @@ use App\Http\Controllers\PublicAuctionController;
 use App\Http\Controllers\PublicRegistrationController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\AdminContactMessageController;
+use App\Http\Controllers\ClassifiedController;
+use App\Http\Controllers\PublicClassifiedController;
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -29,6 +31,8 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/', [PublicCreditPortalController::class, 'home'])->name('home');
 Route::get('/subastas', [PublicAuctionController::class, 'index'])->name('public.auctions.index');
+Route::get('/clasificados', [PublicClassifiedController::class, 'index'])->name('public.classifieds.index');
+Route::get('/clasificados/{classified:slug}', [PublicClassifiedController::class, 'show'])->name('public.classifieds.show');
 Route::get('/contacto', [PublicPageController::class, 'contact'])->name('public.contact');
 Route::post('/contacto', [PublicPageController::class, 'storeContact'])->name('public.contact.store');
 Route::get('/terminos-y-condiciones', [PublicPageController::class, 'terms'])->name('public.terms');
@@ -70,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('categories/{category}/subcategories/json', [SubcategoryController::class, 'byCategory'])->name('categories.subcategories.json');
     Route::resource('subcategories', SubcategoryController::class)->except(['show']);
     Route::resource('auction-products', AuctionProductController::class)->except(['show']);
+    Route::resource('classifieds', ClassifiedController::class)->except(['show']);
     Route::get('admin/auctions', [AuctionController::class, 'index'])->name('admin.auctions.index');
     Route::get('admin/auctions/{auction}', [AuctionController::class, 'show'])->name('admin.auctions.show');
     Route::get('admin/plans', [PlanController::class, 'index'])->name('admin.plans.index');
